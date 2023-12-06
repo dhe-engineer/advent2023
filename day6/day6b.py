@@ -13,32 +13,21 @@ def execute_code(filename='day6/example.txt'):
             data.append(line[1].replace(' ', ''))
 
     winning_counts = 1
-    lower_limit = calculate_boundary(data[0], data[1], 'lower')
-    upper_limit = calculate_boundary(data[0], data[1], 'upper')
-    winning_possibilities = upper_limit - lower_limit + 1
+    boundary = calculate_boundary(data[0], data[1])
+    winning_possibilities = boundary[1] - boundary[0] + 1
     winning_counts *= winning_possibilities
 
     print(f"{winning_counts=}")
 
 
-def calculate_boundary(parameter, condition, limit):
+def calculate_boundary(parameter, condition):
     boundary = get_boundary(int(parameter))
     outcome = calculate_outcome(boundary[0], boundary[1])
-    # if limit == 'lower':
     while outcome > int(condition):
         boundary[0] -= 1
         boundary[1] += 1
         outcome = calculate_outcome(boundary[0], boundary[1])
-    # else:
-    #     while outcome < int(condition):
-    #         boundary[0] -= 1
-    #         boundary[1] += 1
-    #         outcome = calculate_outcome(boundary[0], boundary[1])
-
-    if limit == 'lower':
-        return boundary[0]+1
-    else:
-        return boundary[1]-1
+    return (boundary[0], boundary[1])
 
 
 def get_boundary(integer_value):
